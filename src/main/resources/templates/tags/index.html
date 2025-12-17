@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+
+<nav th:replace="fragments :: navigation"></nav>
+
+<h1 th:text="${title}">All Tags</h1>
+
+<p th:if="${#lists.isEmpty(tags)}">
+    No tags!
+</p>
+
+<ul class="list-group"
+    th:if="${!#lists.isEmpty(tags)}">
+    <li class="list-group-item"
+        th:each="tag : ${tags}"
+        th:text="${tag.name}">
+    </li>
+</ul>
+
+</body>
+</html>
