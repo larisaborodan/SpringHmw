@@ -1,9 +1,12 @@
 package org.launchcode.hello_spring.controllers;
 
+import jakarta.validation.Valid;
 import org.launchcode.hello_spring.data.EventData;
 import org.launchcode.hello_spring.models.Event;
+import org.launchcode.hello_spring.models.EventType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -25,11 +28,17 @@ public class EventController {
     @GetMapping("create")
     public String displayCreateEventForm(Model model) {
         model.addAttribute("title", "Create Event");
+        model.addAttribute( new Event());
+        model.addAttribute("types", EventType.values());
         return "events/create";
     }
 
     @PostMapping("create")
-    public String processCreateEventForm(@ModelAttribute Event newEvent) {
+    public String processCreateEventForm(@ModelAttribute @Valid Event newEvent, Errors errors, Model model) {
+        if (errors.hasErrors()) {
+            model.addAttribute("title", "Create Event");
+            return "events/create";
+        }
         EventData.add(newEvent);
         return "redirect:/events";
     }
