@@ -1,0 +1,71 @@
+<!-- templates/tutorial/fragments.html -->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<!-- Fragment pentru head -->
+<head th:fragment="head">
+    <meta charset="UTF-8" />
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <title th:text="${title}">Title</title>
+</head>
+
+<!-- Fragment pentru header -->
+<div th:fragment="header">
+    <p>
+        <a href="/login"><span sec:authorize="!isAuthenticated()">Login</span></a>
+        <a href="/register"><span sec:authorize="!isAuthenticated()">Register</span></a>
+        <span sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" style="all:unset; color:blue; text-decoration:underline; cursor:pointer;">
+                    Logout
+                </button>
+            </form>
+        </span>
+        <a class="header" href="/"><span sec:authorize="isAuthenticated()">Home</span></a>
+        <a class="header" href="/users"><span sec:authorize="isAuthenticated() and hasAuthority('ADMIN')">Users</span></a>
+        <a class="header" href="/user"><span sec:authorize="isAuthenticated() and hasAuthority('USER')">User</span></a>
+        <a class="header" href="/roles"><span sec:authorize="isAuthenticated() and hasAuthority('ADMIN')">Roles</span></a>
+        <a class="header" href="/admin"><span sec:authorize="isAuthenticated() and hasAuthority('ADMIN')">Admin</span></a>
+    </p>
+</div>
+
+<!-- Fragment pentru tabelul de roluri -->
+<div th:fragment="roles_table">
+    <table>
+        <tr>
+            <th>Authority</th>
+        </tr>
+        <tr th:each="role : ${roles}">
+            <td th:text="${role.role}"></td>
+        </tr>
+    </table>
+</div>
+
+<!-- Fragment pentru tabelul de utilizatori -->
+<div th:fragment="users_table">
+    <table>
+        <tr>
+            <th>Username</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>E-mail address</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.firstName}"></td>
+            <td th:text="${user.lastName}"></td>
+            <td th:text="${user.emailAddress}"></td>
+        </tr>
+    </table>
+</div>
+
+<!-- Fragment pentru footer -->
+<div th:fragment="footer">
+    <div class="footer">
+        <p class="footer">Inginerie Software 2025</p>
+    </div>
+</div>
+
+</html>

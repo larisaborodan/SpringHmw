@@ -55,7 +55,7 @@ public class EventController {
     @GetMapping("create")
     public String displayCreateEventForm(Model model) {
         model.addAttribute("title", "Create Event");
-        model.addAttribute( new Event());
+        model.addAttribute("event", new Event());
         model.addAttribute("categories", eventCategoryRepository.findAll());
         return "events/create";
     }
@@ -64,6 +64,7 @@ public class EventController {
     public String processCreateEventForm(@ModelAttribute @Valid Event newEvent, Errors errors, Model model) {
         if (errors.hasErrors()) {
             model.addAttribute("title", "Create Event");
+            model.addAttribute("categories", eventCategoryRepository.findAll());
             return "events/create";
         }
         eventRepository.save(newEvent);
